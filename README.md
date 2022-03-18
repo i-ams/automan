@@ -8,7 +8,7 @@ Automan client helps user to run the test cases or test scenarios. This is simil
 
 1. User enters url <https://demo.applitools.com/>, provides user id and password and clicks on Sing In button.
 
-![](Aspose.Words.2ab737dc-937f-40b5-9c6b-c3d4fc9427a9.001.png)
+![](https://i-ams.github.io/images/screenshots/1.png "Automan client - User login screen")
 
 1. Application logs in the user and redirects him to dashboard. 
 
