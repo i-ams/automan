@@ -1,0 +1,1 @@
+function getXPathForElement(e){let l=(e,a)=>e?l(e.previousElementSibling,a||e.localName)+(e.localName==a):1,a=e=>e&&1===e.nodeType?e.id&&document.getElementById(e.id)===e?[`id("${e.id}")`]:[...a(e.parentNode),e instanceof HTMLElement?`${e.localName}[${l(e)}]`:`*[local-name() = "${e.localName}"][${l(e)}]`]:[""];return a(e).join("/")}
