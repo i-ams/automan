@@ -31,7 +31,6 @@
       </div>
       
       <script type = "text/javascript">
-      	 
       var input = document.getElementById("url");
 
 	   // Execute a function when the user releases a key on the keyboard
@@ -66,16 +65,48 @@
             
             const webViewDomLoaded = () => {
                 console.log('Web view dom loaded sucessfully...'); 
-                //webview.executeJavaScript('alert("Hello"); alert(document.getElementsByTagName("input").length); var inputFields = document.getElementsByTagName("input"); alert("Adding events to "+inputFields.length); for (var ind = 0; ind < inputFields.length; ind++) { inputFields[ind].addEventListener("keyup", function(e) { alert(event); }); console.log("Adding event listner...");}  console.log("Event added...");');
-                //
-                webview.executeJavaScript('alert("Hello"); alert(document.getElementsByTagName("input").length); var inputFields = document.getElementsByTagName("input"); alert("Adding events to "+inputFields.length); for (var ind = 0; ind < inputFields.length; ind++) { inputFields[ind].addEventListener("keyup", function(e) { var source = event.target || event.srcElement; var data = null; try{ data = (source).value; } catch(err){} var evntData = { "data": data, "keyName": event.key, "eventType": event.type, "sourceId": source.id, "sourceName": source.name };' +
-                	'var stngfData = JSON.stringify(evntData); console.log(stngfData);'+ 
-                	'var xhr = new XMLHttpRequest();'+ 
-					'xhr.open("POST", "http://localhost:8080/automan/event/process", true);'+ 
-					'xhr.setRequestHeader("Content-type", "application/json");'+ 
-					'xhr.send(stngfData);'+
+                //webview.executeJavaScript('alert("Hello"); alert(document.getElementsByTagName("input").length); 
+                var inputFields = document.getElementsByTagName("input"); 
+                for (var ind = 0; ind < inputFields.length; ind++) { 
+                  inputFields[ind].addEventListener("keyup", function(e) { logEvent });
+                  inputFields[ind].addEventListener("click", logEvent);
+                  inputFields[ind].addEventListener("change", logEvent);
+                  inputFields[ind].addEventListener("mouseover", logEvent);
+                  inputFields[ind].addEventListener("mouseout", logEvent);
+                  inputFields[ind].addEventListener("keydown", logEvent);
+                  console.log("Adding event listner...");
+               }  
+                webview.executeJavaScript(' var inputFields = document.getElementsByTagName("input"); console.log("Adding events to "+inputFields.length); for (var ind = 0; ind < inputFields.length; ind++) { inputFields[ind].addEventListener("keyup", function(e) { var source = event.target || event.srcElement; var data = null; try{ data = (source).value; } catch(err){} var evntData = { "data": data, "keyName": event.key, "eventType": event.type, "sourceId": source.id, "sourceName": source.name };' +
+                	   'var stngfData = JSON.stringify(evntData); console.log(stngfData);'+ 
+                	   'var xhr = new XMLHttpRequest();'+ 
+					      'xhr.open("POST", "http://localhost:8080/automan/event/process", true);'+ 
+					      'xhr.setRequestHeader("Content-type", "application/json");'+ 
+					      'xhr.send(stngfData);'+
                 	'}); } ');
-                //webview.executeScript({file: "scripts/ApplicationEvents.js"}, function(result) {console.log(result);});
+                //
+
+               //  webview.executeJavaScript();
+
+                webview.executeJavaScript(' inputFields = document.getElementsByTagName("*"); '+
+                                 'console.log("Adding mouse over events to "+inputFields.length+" elements"); '+
+               'for (var ind = 0; ind < inputFields.length; ind++) { inputFields[ind].addEventListener("mouseover", function(e) { '+
+		         'var source = event.target || event.srcElement;  '+ 
+
+               'var element = document.getElementsByTagName("input")[0]; '+
+               'var xpath = null;'+
+               'const idx = (sib, name) => sib  ? idx(sib.previousElementSibling, name||sib.localName) + (sib.localName == name) : 1;'+
+               'const segs = elm => !elm || elm.nodeType !== 1 ? [""] : elm.id && document.getElementById(elm.id) === elm ? [`id("${elm.id}")`] : [...segs(elm.parentNode), `${elm.localName.toLowerCase()}[${idx(elm)}]`];'+
+               'xpath = segs(element).join("/");'+
+               'console.log(xpath);'+
+
+		         'var evntData = {"xpath": xpath, "keyName": event.key, "eventType": event.type, "sourceId": source.id, "sourceName": source.name };'+
+		         'var stngfData = JSON.stringify(evntData); '+
+		         'console.log(stngfData, source);});}');
+                //webview.executeJavaScript({file: "scripts/util.js"});
+               //var code = readTextFile("file:///./scripts/util.js"); 
+               //webview.executeJavaScript(code);
+               //console.log(code);
+
             }
 
             webview.addEventListener('did-start-loading', loadstart);

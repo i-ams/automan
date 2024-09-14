@@ -28,6 +28,8 @@
 	        protocol: 'file:',
 	        slashes: true
 	     }));
+
+		 win.webContents.openDevTools();
 	    
 	    console.log('Browser Window created...');
 	}
